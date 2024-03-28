@@ -28,7 +28,7 @@ public class MonthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String monthNumberHeader = request.getHeader("monthNumber");
-        if(monthNumberHeader.isEmpty() || monthNumberHeader == null){
+        if(monthNumberHeader == null || monthNumberHeader.isEmpty()){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "monthNumber is null or empty!");
             return false;
         }
