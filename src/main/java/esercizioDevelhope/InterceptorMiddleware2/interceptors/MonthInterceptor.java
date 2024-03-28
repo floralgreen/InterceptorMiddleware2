@@ -27,13 +27,20 @@ public class MonthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //recupero l'header se esiste
         String monthNumberHeader = request.getHeader("monthNumber");
+
+        //se è null o stringa vuota ritorno bad request
         if(monthNumberHeader == null || monthNumberHeader.isEmpty()){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "monthNumber is null or empty!");
             return false;
         }
+
+        //altrimenti faccio il cast a int e utilizzo la funzione findMonthByNumber in maniera veloce
         Integer monthNumberInt = Integer.parseInt(monthNumberHeader);
         Month monthFound = findMonthByNumber(monthNumberInt);
+
+        //ritorno l'attribute con il mese selezionato altrimenti nope se non è presente e ritorno lo status OK 200
         request.setAttribute("month", monthFound);
         response.setStatus(HttpServletResponse.SC_OK);
         return true;
